@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #002f87;
+  --danger: #d50000;
+  --accent: #0ea5e9;
+  --gold: #f6c343;
+  --ink: #0f172a;
+  --muted: #65748b;
+  --lightgray: #f4f7fb;
+  --surface: #ffffff;
+  --line: #dbe4f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background:
+    linear-gradient(135deg, rgba(0, 47, 135, 0.07) 0%, rgba(255, 255, 255, 0) 35%),
+    linear-gradient(180deg, #f7fbff 0%, #fff8fb 46%, #f6f8fc 100%);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Reduce large side gaps on very wide screens */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1800px;
+  }
+}
+
+section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+::selection {
+  background: rgba(213, 0, 0, 0.18);
+  color: var(--ink);
+}
+
+.page-shell {
+  padding-top: 2.5rem;
+  padding-bottom: 3.5rem;
+}
+
+.page-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.10);
+}
+
+.page-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--danger), var(--gold), var(--primary));
+}
+
+.section-kicker {
+  color: var(--danger);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  color: var(--ink);
+  font-size: clamp(1.65rem, 3vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.section-copy {
+  color: #526174;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--danger), #a90000);
+  color: #ffffff;
+  font-weight: 800;
+  box-shadow: 0 14px 28px rgba(213, 0, 0, 0.24);
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 18px 34px rgba(213, 0, 0, 0.30);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-weight: 800;
+  backdrop-filter: blur(10px);
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.form-control {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(0, 47, 135, 0.10);
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  background: var(--primary);
+  opacity: 0.35;
+  width: 10px;
+  height: 10px;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: var(--danger);
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notice-auto-scroll {
+  animation: notice-scroll 22s linear infinite;
+}
+
+.notice-auto-scroll:hover,
+.notice-auto-scroll:focus-within {
+  animation-play-state: paused;
+}
+
+@keyframes notice-scroll {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notice-auto-scroll {
+    animation: none;
+  }
+}
+
+.notice-scroll-mask {
+  mask-image: linear-gradient(to bottom, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
+}
+
+.professional-card {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
+}
