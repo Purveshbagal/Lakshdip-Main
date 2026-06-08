@@ -28,17 +28,17 @@ export default function StatsCounters() {
             {t('practicalBatchesExamOrientedGuidance')}
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
           {stats.map((s) => {
             const Icon = iconMap[s.icon] || FaTrophy
             return (
-              <div key={s.label} className="flex items-center gap-4 rounded-3xl border border-white/20 bg-white/10 p-5 shadow-lg shadow-black/10 backdrop-blur">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-yellow-300 text-primary text-2xl shadow-md">
+              <div key={s.label} className="flex items-center gap-3 rounded-3xl border border-white/20 bg-white/10 p-4 shadow-lg shadow-black/10 backdrop-blur">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-300 text-primary text-xl shadow-md">
                   <Icon />
                 </span>
                 <div>
-                  <div className="text-2xl font-extrabold leading-tight">{s.value}</div>
-                  <div className="text-xs uppercase tracking-[0.15em] text-white/80 mt-1">{t(s.labelKey ?? s.label)}</div>
+                  <div className="text-xl md:text-2xl font-extrabold leading-tight">{s.value}</div>
+                  <div className="text-[10px] md:text-xs uppercase tracking-[0.15em] text-white/80 mt-1">{t(s.labelKey ?? s.label)}</div>
                 </div>
               </div>
             )

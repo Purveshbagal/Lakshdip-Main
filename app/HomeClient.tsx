@@ -59,8 +59,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      <StatsCounters />
-
       <section className="py-12">
         <div className="container">
           <div className="mb-8 text-center">
@@ -75,6 +73,8 @@ export default function HomeClient() {
       </section>
 
       <NewsGallery />
+
+      <StatsCounters />
     </>
   );
 }

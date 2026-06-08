@@ -49,7 +49,7 @@ export default function HeroSlider() {
                         <Image src="/images/simboll/simboll.jpg" alt="Maharashtra Council Symbol" width={96} height={96} className="object-contain" />
                       </div>
                       <div>
-                        <h1 className="text-2xl font-black leading-[1.04] tracking-tight sm:text-3xl md:text-3xl">
+                        <h1 className="text-xl font-black leading-[1.04] tracking-tight sm:text-2xl md:text-3xl">
                           {t(s.title)}
                         </h1>
                         <p className="mt-2 max-w-2xl text-sm font-semibold text-white/90 sm:mt-3 sm:text-base md:mt-3 md:text-lg">
@@ -62,7 +62,7 @@ export default function HeroSlider() {
                     </div>
                   ) : (
                     <>
-                      <h1 className="text-2xl font-black leading-[1.04] tracking-tight sm:text-3xl md:text-6xl">
+                      <h1 className="text-xl font-black leading-[1.04] tracking-tight sm:text-2xl md:text-3xl">
                         {t(site.fullName)}
                       </h1>
                       <p className="mt-2 max-w-2xl text-sm font-semibold text-white/90 sm:mt-3 sm:text-base md:mt-4 md:text-2xl">
