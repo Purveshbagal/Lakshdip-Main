@@ -23,10 +23,10 @@ export default function ChairmanInfo() {
               Dr. Nandkumarji Bedse
             </p>
             <p className="text-xl font-semibold mb-4">
-              Chairman
+              IAS, Chairman
             </p>
             <p className="text-lg font-semibold">
-              Chairman Maharashtra State Council of examination Pune
+              IAS Chairman Maharashtra State Council of examination Pune
             </p>
           </div>
         </div>
