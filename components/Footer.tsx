@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaFacebookF, FaInstagram } from 'react-icons/fa'
 import { site } from '../lib/siteData'
@@ -18,11 +19,11 @@ export default function Footer() {
             <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
               <FaMapMarkerAlt className="mb-4 text-2xl text-danger" />
               <h4 className="mb-1 font-black text-white">{t('Address')}</h4>
-              <p className="leading-relaxed text-white/70">{site.address}</p>
+              <p className="leading-relaxed text-white/70">{t('addressLine')}</p>
             </div>
 
             <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-              <FaPhone className="mb-4 text-2xl text-yellow-300" />
+              <Image src={encodeURI('/images/logo/call logo.png')} alt="Call Logo" width={32} height={32} className="mb-4 object-contain" />
               <h4 className="mb-1 font-black text-white">{t('Phone')}</h4>
               <a href={`tel:+91${site.phone.replace(/\s/g, '')}`} className="block text-white/75 hover:text-yellow-300">
                 +91 {site.phone}
@@ -77,7 +78,7 @@ export default function Footer() {
               className="flex items-center gap-3 rounded-full bg-[#071426] text-white px-4 py-2 font-semibold shadow-lg"
               aria-label={t('callUsNow')}
             >
-              <FaPhone className="text-yellow-300" />
+              <Image src={encodeURI('/images/logo/call logo.png')} alt="Call Logo" width={20} height={20} className="object-contain" />
               <span>{t('callUsNow')}</span>
             </a>
           </div>

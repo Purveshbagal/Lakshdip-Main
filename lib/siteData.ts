@@ -5,7 +5,7 @@ export const site = {
   tagline: 'A Step Towards Digital Future...',
   topBarText: 'Learn Skills, Shape the Future!',
   phone: '91583 16316',
-  phone2: '',
+  phone2: '9527316316',
   hours: 'Monday - Sunday 8.00 AM - 8.00 PM',
   email: 'lakshdipcomputer22200@gmail.com',
   website: 'www.lakshdipcomputerinstitute.in',

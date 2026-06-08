@@ -1,56 +1,45 @@
-import React from 'react'
-import fs from 'fs'
-import path from 'path'
+'use client'
+
+import React, { useEffect, useState } from 'react'
 import GalleryGrid from '../../components/GalleryGrid'
 
-// Load achievement images from public/images/Achivement (server-side)
-const achievementDir = path.join(process.cwd(), 'public', 'images', 'Achivement')
-let achievementImages: Array<any> = []
-if (fs.existsSync(achievementDir)) {
-  achievementImages = fs
-    .readdirSync(achievementDir)
-    .filter((f) => /\.(jpe?g|png|webp|gif|svg)$/i.test(f))
-    .map((file) => ({ title: 'achivement', image: `/images/Achivement/${encodeURIComponent(file)}` }))
+type ImgItem = {
+  title?: string
+  image?: string
+  color?: string
+  type?: string
 }
-
-// Load event images from public/images/funtion and public/images/event (server-side)
-const eventDir = path.join(process.cwd(), 'public', 'images', 'funtion')
-let eventImages: Array<any> = []
-if (fs.existsSync(eventDir)) {
-  eventImages = fs
-    .readdirSync(eventDir)
-    .filter((f) => /\.(jpe?g|png|webp|gif|svg)$/i.test(f))
-    .map((file) => ({ title: 'Event', image: `/images/funtion/${encodeURIComponent(file)}` }))
-}
-const extraEventDir = path.join(process.cwd(), 'public', 'images', 'event')
-if (fs.existsSync(extraEventDir)) {
-  const extra = fs
-    .readdirSync(extraEventDir)
-    .filter((f) => /\.(jpe?g|png|webp|gif|svg)$/i.test(f))
-    .map((file) => ({ title: 'Event', image: `/images/event/${encodeURIComponent(file)}` }))
-  eventImages = eventImages.concat(extra)
-}
-
-// Load certificate images from public/images/certificate, but only treat the first two as "certificates" section
-const certificateDir = path.join(process.cwd(), 'public', 'images', 'certificate')
-let certificateImages: Array<any> = []
-let leftoverFromCertificate: Array<any> = []
-if (fs.existsSync(certificateDir)) {
-  const allCerts = fs
-    .readdirSync(certificateDir)
-    .filter((f) => /\.(jpe?g|png|webp|gif|svg)$/i.test(f))
-    .map((file) => ({ title: 'certificate', image: `/images/certificate/${encodeURIComponent(file)}` }))
-  certificateImages = allCerts.slice(0, 2)
-  leftoverFromCertificate = allCerts.slice(2)
-}
-
-// Build final images array: show certificates section (2 images) + all event images
-const images = [
-  ...(certificateImages.length ? [{ type: 'section', title: 'certificates' }].concat(certificateImages) : []),
-  ...(eventImages.length ? eventImages : []),
-]
 
 export default function GalleryPage() {
+  const [images, setImages] = useState<ImgItem[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchImages() {
+      try {
+        const response = await fetch('/api/gallery')
+        const data = await response.json()
+        setImages(data)
+      } catch (error) {
+        console.error('Failed to fetch gallery images:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchImages()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="container page-shell">
+        <div className="page-card p-6 md:p-9">
+          <div className="text-center">Loading gallery...</div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="container page-shell">
       <div className="page-card p-6 md:p-9">

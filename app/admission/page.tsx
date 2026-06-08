@@ -14,7 +14,7 @@ export default function AdmissionPage() {
   return (
     <div className="container page-shell grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2">
-        <p className="section-kicker">Admissions Open</p>
+        <p className="section-kicker">{t('admissionsOpen')}</p>
         <h1 className="section-title mb-6 mt-2">{t('admissionPageTitle')}</h1>
         <AdmissionBox />
       </div>

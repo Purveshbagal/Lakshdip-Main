@@ -19,7 +19,7 @@ export default function ContactPage() {
   const [message, setMessage] = useState('')
 
   const values: Record<string, React.ReactNode> = {
-    address: site.address,
+    address: t('addressLine'),
     phone: (
       <>
         <a href={`tel:+91${site.phone.replace(/\s/g, '')}`} className="hover:text-danger">+91 {site.phone}</a>

@@ -3,15 +3,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FaChevronDown, FaBars, FaTimes } from 'react-icons/fa'
+import { FaChevronDown } from 'react-icons/fa'
 import { navLinks } from '../lib/siteData'
-import { useLanguage } from './LanguageProvider'
+import { useLanguage, languages } from './LanguageProvider'
 
-export default function Navbar() {
-  const { t } = useLanguage()
+export default function Navbar({ mobileOpen, setMobileOpen }: { mobileOpen: boolean; setMobileOpen: (open: boolean) => void }) {
+  const { t, lang, setLang } = useLanguage()
   const pathname = usePathname()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
-  const [mobileOpen, setMobileOpen] = useState(false)
 
   function isActive(href: string) {
     if (href === '/') return pathname === '/'
@@ -53,6 +52,21 @@ export default function Navbar() {
           ))}
         </div>
 
+        <div className="hidden lg:flex items-center gap-2">
+          <label className="sr-only">{t('topBarLanguage')}</label>
+          <select
+            value={lang}
+            onChange={(e) => setLang(e.target.value as typeof lang)}
+            className="rounded-full bg-white/10 border border-white/20 text-white text-xs px-3 py-2 outline-none appearance-none focus:ring-2 focus:ring-yellow-300"
+          >
+            {languages.map((option) => (
+              <option key={option.code} value={option.code} className="bg-slate-900 text-white">
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <Link
           href="/admission"
           className="hidden lg:inline-flex bg-yellow-300 hover:bg-yellow-200 text-[#071426] text-xs font-black px-5 py-2.5 rounded-full transition-colors shadow-lg shadow-black/10"
@@ -60,14 +74,6 @@ export default function Navbar() {
           {t('Apply Now')}
         </Link>
 
-        <button
-          type="button"
-          className="lg:hidden text-white p-2 rounded-xl border border-white/20 hover:bg-white/10 transition ml-auto"
-          aria-label="Toggle menu"
-          onClick={() => setMobileOpen((open) => !open)}
-        >
-          {mobileOpen ? <FaTimes /> : <FaBars />}
-        </button>
       </div>
 
       {mobileOpen && (
@@ -100,6 +106,20 @@ export default function Navbar() {
                 )}
               </div>
             ))}
+            <div className="mt-4 px-4">
+              <label className="sr-only">{t('topBarLanguage')}</label>
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value as typeof lang)}
+                className="w-full rounded-full bg-white/10 border border-white/20 text-white text-sm px-4 py-3 outline-none appearance-none focus:ring-2 focus:ring-yellow-300"
+              >
+                {languages.map((option) => (
+                  <option key={option.code} value={option.code} className="bg-slate-900 text-white">
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
             <Link
               href="/admission"
               className="block rounded-full bg-danger text-white text-center text-sm font-bold py-3 mt-2"

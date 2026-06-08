@@ -41,9 +41,9 @@ export default function MainHeader() {
           ))}
         </div>
 
-        <div className="fixed top-4 right-4 z-50">
+        <div className="hidden md:block fixed top-4 right-4 z-50">
           <div className="rounded-2xl bg-white p-1 shadow-sm">
-            <Image src={encodeURI('/images/logo/Logo 2.png')} alt="Logo 2" width={64} height={64} className="object-contain" />
+            <Image src={encodeURI('/images/logo/call logo.png')} alt="Call Logo" width={64} height={64} className="object-contain" />
           </div>
         </div>
 
