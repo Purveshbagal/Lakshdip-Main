@@ -28,7 +28,7 @@ export default function GalleryGrid({ images }: { images: ImgItem[] }) {
             return (
               <div key={`section-${img.title}-${idx}`} className="col-span-1 sm:col-span-2 md:col-span-3">
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-                  <h2 className="section-title">{img.title?.charAt(0).toUpperCase() + img.title?.slice(1)}</h2>
+                  <h2 className="section-title">{img.title ? img.title.charAt(0).toUpperCase() + img.title.slice(1) : ''}</h2>
                 </div>
               </div>
             )

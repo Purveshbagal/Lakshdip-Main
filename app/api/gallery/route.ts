@@ -9,12 +9,12 @@ export async function GET() {
     
     const certificateFiles = readdirSync(certificateDir).filter(file => {
       const ext = file.toLowerCase().split('.').pop()
-      return ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)
+      return ext ? ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext) : false
     })
 
     const eventFiles = readdirSync(eventDir).filter(file => {
       const ext = file.toLowerCase().split('.').pop()
-      return ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)
+      return ext ? ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext) : false
     })
 
     const images = [

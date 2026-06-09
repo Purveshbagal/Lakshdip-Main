@@ -8,7 +8,7 @@ export const site = {
   phone2: '9527316316',
   hours: 'Monday - Sunday 8.00 AM - 8.00 PM',
   email: 'lakshdipcomputer22200@gmail.com',
-  website: 'www.lakshdipcomputerinstitute.in',
+  website: 'lakshdipcomputer.com',
   whatsapp: '919158316316',
   address: 'Miri Road, Near Santoshi Mata Mandir, Shashrinagar, Shevgaon',
 }
