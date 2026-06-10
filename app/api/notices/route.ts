@@ -9,27 +9,51 @@ const handleError = (error: unknown) => {
   return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
 }
 
-export async function GET(){
-  try {
-    await connect()
-    const notices = await Notice.find({}).sort({date:-1}).lean()
-    if (Array.isArray(notices) && notices.length > 0) return NextResponse.json(notices)
+export async function GET() {
+  // Run MongoDB fetch and MSCE scrape in parallel — always fetch both
+  const [dbResult, msceResult] = await Promise.allSettled([
+    (async () => {
+      await connect()
+      return Notice.find({}).sort({ date: -1 }).lean()
+    })(),
+    scrapeMsce(),
+  ])
 
-    // If no local notices, fallback to MSCE feed
-    try {
-      const msce = await scrapeMsce()
-      // map to a consistent shape and include heading if available
-      const items = msce.items.map((it: MsceNotice) => ({ title: it.title, url: it.url, badge: it.isNew ? 'NEW' : undefined, createdAt: new Date(msce.fetchedAt || Date.now()) }))
-      const payload: any = { items }
-      if (msce.heading) payload.heading = msce.heading
-      return NextResponse.json(payload)
-    } catch (e) {
-      return NextResponse.json(defaultNotices)
-    }
-  } catch (error) {
-    console.error('Notices API fallback to default data:', error)
-    return NextResponse.json(defaultNotices)
+  const msceItems =
+    msceResult.status === 'fulfilled' && msceResult.value.items.length > 0
+      ? msceResult.value.items.map((it: MsceNotice) => ({
+          title: it.title,
+          url: it.url,
+          badge: it.isNew ? 'NEW' : undefined,
+          isPdf: it.isPdf,
+          createdAt: new Date(msceResult.value.fetchedAt || Date.now()),
+        }))
+      : []
+
+  const dbItems =
+    dbResult.status === 'fulfilled' &&
+    Array.isArray(dbResult.value) &&
+    dbResult.value.length > 0
+      ? dbResult.value
+      : []
+
+  // MSCE notices first, then local DB notices — deduplicated by title
+  const seen = new Set<string>()
+  const merged = [...msceItems, ...dbItems].filter((it) => {
+    const key = ((it as any).title || '').toLowerCase().trim()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+
+  if (merged.length === 0) {
+    return NextResponse.json({ items: defaultNotices, fetchedAt: Date.now(), heading: '' })
   }
+
+  const heading =
+    msceResult.status === 'fulfilled' ? msceResult.value.heading || '' : ''
+
+  return NextResponse.json({ items: merged, fetchedAt: Date.now(), heading })
 }
 
 export async function POST(req: Request){
