@@ -84,6 +84,38 @@ export async function scrapeMsce(): Promise<MsceScrapeResult> {
     }
   })
 
+  // If the original alert-based markup isn't present, fall back to scanning
+  // anchor tags across the page for likely notice links (PDFs, GCC paths,
+  // or anchors with reasonably long descriptive text).
+  if (items.length === 0) {
+    const anchors = $('a[href]').filter((_, a) => {
+      const $a = $(a)
+      const href = ($a.attr('href') || '').trim()
+      const text = ($a.text() || '').replace(/\s+/g, ' ').trim()
+      if (!href || href.startsWith('#') || href.startsWith('javascript:')) return false
+      if (text.length < 10) return false
+      // Prefer links that look like notices: PDF, GCC paths, or contain keywords
+      if (/\.pdf($|\?)/i.test(href)) return true
+      if (/\/GCC\//i.test(href) || /GCCTBC|ADHISUCHANA|Result|TIMETABLE|JUNE|APRIL|DEC/i.test(href + text)) return true
+      return false
+    })
+
+    anchors.each((_, a) => {
+      const $a = $(a)
+      const title = extractText($a)
+      const href = $a.attr('href') || ''
+      if (!title) return
+      try {
+        const url = new URL(href, SRC_URL).toString()
+        const isPdf = /\.pdf($|\?)/i.test(url)
+        const isNew = /new/i.test($a.parent().text()) || /blinking_new\.gif/i.test($a.parent().html() || '')
+        items.push({ title, url, isNew, isPdf, rawHtml: $a.parent().html() })
+      } catch {
+        // ignore malformed
+      }
+    })
+  }
+
   const unique = Array.from(new Map(items.map((it) => [(it.url || it.title).toString(), it])).values())
   return { debug, items: unique, fetchedAt: Date.now(), alertsFound: alerts.length, heading }
 }
